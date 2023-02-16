@@ -4,7 +4,21 @@ function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
   // add useEffect code
-
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeRemaining(time => time - 1);
+    }, 1000);
+  
+    if (timeRemaining === 0) {
+      setTimeRemaining(10);
+      onAnswered(false);
+    }
+  
+    return () => clearTimeout(timer);
+  }, [timeRemaining]);
+  
+  // With these changes, the Question component should now have a countdown timer that resets to 10 seconds after each question and calls the onAnswered callback prop with a value of false when the timer reaches 0.
+  
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
     onAnswered(isCorrect);
